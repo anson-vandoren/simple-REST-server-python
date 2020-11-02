@@ -1,0 +1,5 @@
+To run a simple web server to serve this client test page locally, use:
+
+$ python -m http.server
+
+from the directory containing index.html. Then navigate to http://localhost:8000 in a browser (after the endpoint server is also running)

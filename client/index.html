@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>Web-based motor control</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <h1>Web-based motor control</h1>
+    <table>
+      <tr>
+        <th>Motor Name</th>
+        <th>Status</th>
+        <th>Current Position</th>
+        <th>Control</th>
+      </tr>
+      <tr>
+        <td>Motor #1</td>
+        <td id="motor_status_1">UNKNOWN</td>
+        <td id="motor_pos_1">---</td>
+        <td>
+          <button id="positive_1" onclick="command_motor('1', 'positive')">
+            +
+          </button>
+          <button id="negative_1" onclick="command_motor('1', 'negative')">-</button>
+        </td>
+      </tr>
+    </table>
+    <script type="text/javascript">
+      let motorStatusOne = document.getElementById("motor_status_1");
+      let motorPositionOne = document.getElementById("motor_pos_1");
+      function update_status() {
+        // get data from server and update this page
+        fetch('http://localhost:5000/status' ).
+          then(async res => {
+            let data = await res.json();
+            motorStatusOne.innerHTML = data.motor_status;
+            motorPositionOne.innerHTML = data.motor_position;
+          })
+            
+      }
+      async function command_motor(motor, direction) {
+        let response = await fetch(`http://localhost:5000/rotate/${direction}`, {method: 'POST'});
+        let data = await response.json();
+        motorStatusOne.innerHTML = data.motor_status;
+        motorPositionOne.innerHTML = data.motor_position;
+      };
+      window.onload = update_status;
+    </script>
+  </body>
+</html>

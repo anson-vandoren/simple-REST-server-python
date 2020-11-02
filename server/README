@@ -1,0 +1,9 @@
+Install dependencies
+
+$ pip install -r requirements.txt
+
+Run server:
+
+$ ./start_server.sh
+
+Open the index.html from the client folder to play around
